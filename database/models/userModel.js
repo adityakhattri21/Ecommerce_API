@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
 const moment = require("moment");
+const bcrypt = require("bcryptjs");
 
 
 const userSchema = new mongoose.Schema({
@@ -42,5 +43,28 @@ const userSchema = new mongoose.Schema({
         default:()=>moment().utcOffset("+05:30").format("DD-MM-YYYY HH:mm:ss")
     }
 });
+
+userSchema.pre("save" , async function(next){ //pre is like a listener for event "save".
+
+    if(!this.isModified("password")){ //isModified returns true if the field is modified. 
+        next();
+    }
+
+    this.password = await bcrypt.hash(this.password,10);
+});
+
+//JWT TOKEN
+userSchema.methods.getJWTToken = function(){
+    return jwt.sign({id:this._id},process.env.JWT_SECRET,{
+        expiresIn:process.env.JWT_EXPIRE,
+    })
+};
+
+//Compare Password
+userSchema.methods.comparePassword = async function(enteredPassword){
+
+    return await bcrypt.compare(enteredPassword,this.password);
+
+};
 
 module.exports = mongoose.model("User",userSchema);
