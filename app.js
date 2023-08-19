@@ -7,8 +7,10 @@ app.use(express.json());
 app.use(cookieParser());
 
 const userRoutes = require("./routes/userRoutes");
+const productRoute = require("./routes/productRoutes");
 
 app.use("/api/v1",userRoutes);
+app.use("/api/v1",productRoute);
 
 app.use(errorMiddleware);
 module.exports = app;
