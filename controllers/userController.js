@@ -1,10 +1,10 @@
 const User = require("../database/models/userModel");
 const ErrorHandler = require("../utils/errorHandler");
-const catchAsyncErrors = require("../middleware/catchAsyncErrors");
+const catchAsyncError = require("../middlewares/catchAsyncError");
 const sendToken = require("../utils/jwtToken");
 
 //Register a user
-exports.registerUser = catchAsyncErrors(async (req,res,next)=>{
+exports.registerUser = catchAsyncError(async (req,res,next)=>{
 
 const {name,email,password} = req.body;
 
@@ -25,7 +25,7 @@ sendToken(user,201,res);
 
 
 //Login User
-exports.loginUser= catchAsyncErrors(async(req,res,next)=>{
+exports.loginUser= catchAsyncError(async(req,res,next)=>{
 
     const {email,password} = req.body;
 
@@ -50,7 +50,7 @@ exports.loginUser= catchAsyncErrors(async(req,res,next)=>{
 });
 
 //Logout User
-exports.logout = catchAsyncErrors(async (req,res,next)=>{
+exports.logout = catchAsyncError(async (req,res,next)=>{
 
     res.cookie("token",null,{
         Expires:new Date(Date.now()),
@@ -66,7 +66,7 @@ exports.logout = catchAsyncErrors(async (req,res,next)=>{
 
 
 //Get User Details
-exports.getUserDetails = catchAsyncErrors(async(req,res,next)=>{
+exports.getUserDetails = catchAsyncError(async(req,res,next)=>{
 
     const user = await User.findById(req.user.id);
 
@@ -77,7 +77,7 @@ exports.getUserDetails = catchAsyncErrors(async(req,res,next)=>{
 })
 
 //update user password
-exports.updatePassword = catchAsyncErrors(async(req,res,next)=>{
+exports.updatePassword = catchAsyncError(async(req,res,next)=>{
 
     const user = await User.findById(req.user.id).select("+password");
 
@@ -100,7 +100,7 @@ exports.updatePassword = catchAsyncErrors(async(req,res,next)=>{
 });
 
 //Update user Profile
-exports.updateProfile = catchAsyncErrors(async(req,res,next)=>{
+exports.updateProfile = catchAsyncError(async(req,res,next)=>{
 
     const newUserData ={
         name:req.body.name,
@@ -141,7 +141,7 @@ exports.updateProfile = catchAsyncErrors(async(req,res,next)=>{
 });
 
 //Get All users --Admin
-exports.getAllUsers = catchAsyncErrors(async(req,res,next)=>{
+exports.getAllUsers = catchAsyncError(async(req,res,next)=>{
 
     const users = await User.find();
 
@@ -153,7 +153,7 @@ exports.getAllUsers = catchAsyncErrors(async(req,res,next)=>{
 });
 
 //Get Single user --Admin
-exports.getSingleUser = catchAsyncErrors(async(req,res,next)=>{
+exports.getSingleUser = catchAsyncError(async(req,res,next)=>{
 
     const user = await User.findById(req.params.id);
 
@@ -169,7 +169,7 @@ exports.getSingleUser = catchAsyncErrors(async(req,res,next)=>{
 });
 
 //Update user Profile --Admin
-exports.updateUserRole = catchAsyncErrors(async(req,res,next)=>{
+exports.updateUserRole = catchAsyncError(async(req,res,next)=>{
 
     const newUserData ={
         name:req.body.name,
@@ -196,7 +196,7 @@ exports.updateUserRole = catchAsyncErrors(async(req,res,next)=>{
 });
 
 //Delete User --Admin
-exports.deleteUser = catchAsyncErrors(async(req,res,next)=>{
+exports.deleteUser = catchAsyncError(async(req,res,next)=>{
     const user = await User.findById(req.params.id);
 
   if (!user) {

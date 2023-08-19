@@ -1,4 +1,4 @@
-const Cart = require('../models/Cart');
+const Cart = require('../database/models/cartModel');
 const catchAsyncError = require("../middlewares/catchAsyncError");
 const errorHandler = require('../utils/errorHandler');
 
