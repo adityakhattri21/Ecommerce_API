@@ -10,6 +10,7 @@ choice however I recommend NPM .
 2. Now go into the directory containing the project.
 3. Install the dependencies using ```npm intall``` or  ```npm i```
 4. Now start the server using ```npm start``` . Your server will  start at Localhost:5000.
+5. Add the necessary env variables like ```DB_URL``` , ```JWT_SECRET``` , ```JWT_EXPIRE``` & ```COOKIE_EXPIRE```.
 
 ## Routes
 The API consists of 4 main Routers pertaining to following Models and have routes inside them.
